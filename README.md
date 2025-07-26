@@ -1,9 +1,12 @@
 # 🏦 FiMoney - Inventory Management System
 
-**A modern, secure inventory management system built with FastAPI, featuring JWT authentication, product management, and RESTful APIs.**
+**A modern, full-stack inventory management system built with FastAPI backend and React frontend, featuring JWT authentication, product management, and responsive UI design.**
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://reactjs.org/)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 
 ## 📋 Table of Contents
@@ -13,9 +16,12 @@
 - [Project Structure](#-project-structure)
 - [API Endpoints](#-api-endpoints)
 - [Installation & Setup](#-installation--setup)
+  - [Backend Setup](#backend-setup)
+  - [Frontend Setup](#frontend-setup)
 - [Environment Variables](#-environment-variables)
 - [Running the Application](#-running-the-application)
 - [API Documentation](#-api-documentation)
+- [Frontend Features](#-frontend-features)
 - [Testing](#-testing)
 - [Postman Collection](#-postman-collection)
 - [Security](#-security)
@@ -49,7 +55,23 @@
 - **SQL Injection Protection** with SQLAlchemy ORM
 - **Environment Variable Security**
 
+### 🎨 Frontend Features
+- **Responsive React UI** with modern design patterns
+- **Interactive Login/Register Forms** with real-time validation
+- **Product Dashboard** with grid layout and search functionality
+- **JWT Token Management** with automatic authentication handling
+- **Custom Green/Gold Theme** for professional financial appearance
+- **Error Handling** with user-friendly messages
+- **Mobile-First Design** optimized for all screen sizes
+- **Component-Based Architecture** for maintainability
+
 ## 🚀 Tech Stack
+
+### Frontend Framework
+- **[React 18](https://reactjs.org/)** - Modern JavaScript library for building user interfaces
+- **[Vite](https://vitejs.dev/)** - Next-generation frontend build tool with HMR
+- **[JavaScript ES6+](https://developer.mozilla.org/en-US/docs/Web/JavaScript)** - Modern JavaScript features
+- **[CSS3](https://developer.mozilla.org/en-US/docs/Web/CSS)** - Styling with custom themes and responsive design
 
 ### Backend Framework
 - **[FastAPI](https://fastapi.tiangolo.com/)** - Modern, fast web framework for building APIs
@@ -71,6 +93,11 @@
 ### Development Tools
 - **[Python-dotenv](https://github.com/theskumar/python-dotenv)** - Environment variable management
 - **[Python-multipart](https://github.com/andrew-d/python-multipart)** - Multipart form data parsing
+- **[Node.js](https://nodejs.org/)** - JavaScript runtime for frontend development
+- **[npm](https://www.npmjs.com/)** - Package manager for JavaScript
+
+### Frontend HTTP Client
+- **[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)** - Modern HTTP client for API communication
 
 ## 📁 Project Structure
 
@@ -95,6 +122,23 @@ fimoney/
 │   ├── .env                     # Environment variables (not in repo)
 │   ├── .env.example             # Environment template
 │   └── test_product_api.py      # API test script
+├── frontend/
+│   ├── public/
+│   │   ├── index.html           # HTML template
+│   │   └── vite.svg             # Vite logo
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Login.jsx        # Login/Register component
+│   │   │   ├── Login.css        # Login component styles
+│   │   │   ├── Dashboard.jsx    # Main dashboard component
+│   │   │   └── Dashboard.css    # Dashboard component styles
+│   │   ├── App.jsx              # Main React component
+│   │   ├── App.css              # Global application styles
+│   │   └── main.jsx             # React entry point
+│   ├── package.json             # Frontend dependencies
+│   ├── package-lock.json        # Locked dependency versions
+│   ├── vite.config.js           # Vite configuration
+│   └── .gitignore               # Frontend git ignore rules
 ├── README.md                    # Project documentation
 └── .gitignore                   # Git ignore rules
 ```
@@ -127,7 +171,8 @@ fimoney/
 
 ### Prerequisites
 - **Python 3.8 or higher**
-- **pip** (Python package manager)
+- **Node.js 16 or higher**
+- **npm** (Node package manager)
 - **Git** (for cloning the repository)
 
 ### 1. Clone the Repository
@@ -135,6 +180,8 @@ fimoney/
 git clone https://github.com/pranjalirathi/FiMoney---Inventory-Management.git
 cd FiMoney---Inventory-Management
 ```
+
+## Backend Setup
 
 ### 2. Navigate to Backend Directory
 ```bash
@@ -152,7 +199,7 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 4. Install Dependencies
+### 4. Install Backend Dependencies
 ```bash
 pip install -r requirements.txt
 ```
@@ -167,6 +214,22 @@ python -c "import secrets; print(secrets.token_hex(32))"
 
 # Edit .env file with your secret key
 ```
+
+## Frontend Setup
+
+### 6. Navigate to Frontend Directory
+```bash
+# Open a new terminal or navigate back to root
+cd ../frontend
+```
+
+### 7. Install Frontend Dependencies
+```bash
+npm install
+```
+
+### 8. Configure Frontend API URL
+The frontend is pre-configured to connect to the backend at `http://localhost:8000`. If you need to change this, update the API URLs in the React components.
 
 ## 🔑 Environment Variables
 
@@ -187,9 +250,10 @@ print(secrets.token_hex(32))
 
 ## ▶️ Running the Application
 
-### 1. Start the Server
+### 1. Start the Backend Server
 ```bash
 # Make sure you're in the backend directory and virtual environment is activated
+cd backend
 python main.py
 ```
 
@@ -198,10 +262,25 @@ python main.py
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### 3. Server Information
-- **Local URL**: http://localhost:8000
+### 3. Start the Frontend Development Server
+```bash
+# Open a new terminal and navigate to frontend directory
+cd frontend
+npm run dev
+```
+
+### 4. Application URLs
+- **Frontend Application**: http://localhost:5173
+- **Backend API**: http://localhost:8000
 - **API Documentation**: http://localhost:8000/docs
-- **Alternative Docs**: http://localhost:8000/redoc
+- **Alternative API Docs**: http://localhost:8000/redoc
+
+### 5. Development Workflow
+1. Start the backend server first (runs on port 8000)
+2. Start the frontend development server (runs on port 5173)
+3. The frontend will automatically connect to the backend API
+4. Any changes to frontend code will trigger hot reload
+5. Backend changes require server restart
 
 ## 📚 API Documentation
 
@@ -220,6 +299,47 @@ Visit: **http://localhost:8000/redoc**
 - Detailed schema information
 - Code examples
 
+## 🎨 Frontend Features
+
+### User Interface Components
+- **Login/Register Form**: Unified authentication component with toggle functionality
+- **Dashboard**: Product management interface with responsive grid layout
+- **Navigation**: Clean header with user info and logout functionality
+- **Error Handling**: User-friendly error messages and loading states
+
+### Design & Styling
+- **Custom Green/Gold Theme**: Professional financial color scheme
+- **Responsive Design**: Mobile-first approach with CSS Grid and Flexbox
+- **Smooth Animations**: Hover effects and transitions for better UX
+- **Modern UI Elements**: Rounded corners, shadows, and gradients
+
+### Authentication Flow
+- **JWT Token Management**: Automatic token storage and validation
+- **Protected Routes**: Conditional rendering based on authentication state
+- **Session Persistence**: Login state maintained across browser sessions
+- **Automatic Logout**: Token expiration handling
+
+### Frontend Development Features
+- **Hot Module Replacement**: Instant updates during development
+- **Component Architecture**: Reusable React components
+- **Modern JavaScript**: ES6+ features and async/await patterns
+- **CSS Modules**: Scoped styling for component isolation
+
+### Frontend Commands
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
 ## 🧪 Testing
 
 ### Manual Testing Script
@@ -237,6 +357,25 @@ The test script validates:
 - ✅ Product quantity updates
 - ✅ Duplicate SKU validation
 - ✅ Authentication token handling
+
+### Frontend Testing
+To test the full application:
+
+1. **Start both servers** (backend on :8000, frontend on :5173)
+2. **Navigate to** http://localhost:5173
+3. **Test user registration** with unique username
+4. **Test login functionality** with created credentials
+5. **Verify dashboard** displays products correctly
+6. **Test logout functionality** clears authentication state
+
+### Manual Testing Checklist
+- [ ] Registration with new username
+- [ ] Login with valid credentials
+- [ ] Dashboard loads product data
+- [ ] Responsive design on mobile/tablet
+- [ ] Error handling for invalid credentials
+- [ ] Token persistence across browser refresh
+- [ ] Logout functionality works correctly
 
 ### Expected Test Output
 ```
@@ -336,27 +475,58 @@ YourModel.metadata.create_all(bind=engine)
 ```
 
 ### Code Structure Guidelines
-- **Models**: SQLAlchemy database models
-- **Schemas**: Pydantic request/response models
-- **Routes**: FastAPI endpoint definitions
-- **Core**: Utility functions (auth, etc.)
+- **Backend Models**: SQLAlchemy database models
+- **Backend Schemas**: Pydantic request/response models
+- **Backend Routes**: FastAPI endpoint definitions
+- **Backend Core**: Utility functions (auth, etc.)
+- **Frontend Components**: React functional components
+- **Frontend Styles**: Component-specific CSS files
+- **Frontend Utils**: Helper functions and API calls
 
 ## 🚀 Deployment
 
-### Production Setup
+### Backend Production Setup
 1. **Use PostgreSQL** instead of SQLite
 2. **Set Environment Variables** securely
 3. **Use HTTPS** with SSL certificates
 4. **Configure CORS** for frontend integration
 5. **Set up proper logging**
+6. **Use production ASGI server** (Gunicorn + Uvicorn)
+
+### Frontend Production Setup
+1. **Build the application**: `npm run build`
+2. **Serve static files** with Nginx or CDN
+3. **Configure API endpoints** for production URLs
+4. **Enable HTTPS** for secure authentication
+5. **Set up proper caching** headers
 
 ### Environment Variables for Production
 ```env
+# Backend
 DATABASE_URL=postgresql://user:password@localhost/dbname
 SECRET_KEY=your_production_secret_key
 DEBUG=False
 ALLOWED_HOSTS=yourdomain.com
+CORS_ORIGINS=https://yourdomain.com
+
+# Frontend (if needed)
+VITE_API_URL=https://api.yourdomain.com
 ```
+
+### Deployment Options
+
+#### Frontend Deployment
+- **Vercel**: `npm run build` → Deploy dist folder
+- **Netlify**: Connect GitHub repo → Auto-deploy
+- **AWS S3 + CloudFront**: Static hosting with CDN
+- **Docker**: Multi-stage build with Nginx
+
+#### Backend Deployment
+- **Railway**: Direct GitHub integration
+- **Heroku**: Git-based deployment
+- **DigitalOcean App Platform**: Container deployment
+- **AWS EC2**: Manual server setup
+- **Docker**: Containerized deployment
 
 ## 🤝 Contributing
 
@@ -367,10 +537,23 @@ ALLOWED_HOSTS=yourdomain.com
 5. **Submit pull request**
 
 ### Development Guidelines
-- Follow PEP 8 style guidelines
-- Add docstrings to functions
-- Write tests for new features
-- Update documentation
+- **Backend**: Follow PEP 8 style guidelines
+- **Frontend**: Use ESLint and Prettier for code formatting
+- **Components**: Keep React components small and focused
+- **Styling**: Use component-specific CSS files
+- **API Integration**: Use consistent error handling patterns
+- **Documentation**: Add docstrings and comments
+- **Testing**: Write tests for new features
+- **Git**: Use descriptive commit messages
+
+### Frontend Development Guidelines
+- Use functional components with hooks
+- Implement proper error boundaries
+- Follow React best practices
+- Maintain consistent component structure
+- Use semantic HTML elements
+- Ensure accessibility compliance
+- Optimize for performance
 
 ## 📝 License
 
@@ -382,22 +565,21 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🙏 Acknowledgments
 
-- FastAPI documentation and community
-- SQLAlchemy ORM framework
-- JWT authentication standards
-- Python security best practices
+- **Backend Technologies**:
+  - FastAPI documentation and community
+  - SQLAlchemy ORM framework
+  - JWT authentication standards
+  - Python security best practices
 
----
+- **Frontend Technologies**:
+  - React.js community and documentation
+  - Vite build tool and development server
+  - Modern CSS techniques and responsive design
+  - JavaScript ES6+ features and best practices
 
-## 📞 Support
 
-If you encounter any issues or have questions:
+## 🙏 AI USAGE
+ AI tools were used to help in the creation of the README file for this repository with the tree structure. However it is being validated and edited after it. It was also used in getting some parts of the creation of the frontend design and for getting the approach for backend pagination api. 
 
-1. **Check the documentation**: http://localhost:8000/docs
-2. **Run tests**: `python test_product_api.py`
-3. **Check logs**: Server console output
-4. **Create an issue**: GitHub repository issues
-
----
 
 **⭐ Star this repository if you found it helpful!**
