@@ -18,6 +18,10 @@ async def add_product(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
+    existing_product = db.query(Product).filter(Product.sku == product.sku).first()
+    if existing_product:
+        raise HTTPException(status_code=400, detail=f"Product with SKU '{product.sku}' already exists")
+    
     try:
         db_product = Product(
             name=product.name,
@@ -39,7 +43,14 @@ async def add_product(
         )
     except IntegrityError as e:
         db.rollback()
-        raise HTTPException(status_code=400, detail="Product creation failed")
+        error_str = str(e.orig) if hasattr(e, 'orig') else str(e)
+        if "UNIQUE constraint failed" in error_str:
+            raise HTTPException(status_code=400, detail=f"Product with SKU '{product.sku}' already exists")
+        else:
+            raise HTTPException(status_code=400, detail=f"Product creation failed: {error_str}")
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
 
@@ -96,19 +107,3 @@ async def get_product(
     return product
 
 
-@router.delete("/{product_id}")
-async def delete_product(
-    product_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
-    product = db.query(Product).filter(Product.id == product_id).first()
-    if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
-    
-    if product.created_by != current_user.id:
-        raise HTTPException(status_code=403, detail="Not authorized to delete this product")
-    
-    db.delete(product)
-    db.commit()
-    return {"message": "Product deleted successfully"}
