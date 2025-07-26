@@ -18,12 +18,15 @@ async def add_product(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """
-    Add a new product
-    """
     try:
         db_product = Product(
-            **product.dict(),
+            name=product.name,
+            type=product.type,
+            sku=product.sku,
+            image_url=product.image_url,
+            description=product.description,
+            quantity=product.quantity,
+            price=product.price,
             created_by=current_user.id
         )
         db.add(db_product)
@@ -38,6 +41,8 @@ async def add_product(
         db.rollback()
         raise HTTPException(status_code=400, detail="Product creation failed")
 
+
+
 @router.get("/", response_model=ProductListResponse)
 async def get_products(
     page: int = Query(1, ge=1, description="Page number"),
@@ -45,7 +50,6 @@ async def get_products(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    # Calculate offset
     offset = (page - 1) * size
     
     total = db.query(Product).count()
@@ -79,6 +83,7 @@ async def update_product_quantity(
     db.refresh(product)
     return product
 
+
 @router.get("/{product_id}", response_model=ProductResponse)
 async def get_product(
     product_id: int,
@@ -90,20 +95,17 @@ async def get_product(
         raise HTTPException(status_code=404, detail="Product not found")
     return product
 
+
 @router.delete("/{product_id}")
 async def delete_product(
     product_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """
-    Delete a product
-    """
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     
-    # Check if user owns the product
     if product.created_by != current_user.id:
         raise HTTPException(status_code=403, detail="Not authorized to delete this product")
     

@@ -43,25 +43,10 @@ async def register_user(user: UserCreate, db: Session = Depends(get_db)):
     )
 
 @router.post("/login", response_model=Token)
-async def login_for_access_token(
-    form_data: OAuth2PasswordRequestForm = Depends(),
-    db: Session = Depends(get_db)
-):
-    user = authenticate_user(form_data.username, form_data.password, db)
-    if not user:
-        raise HTTPException(
-            status_code=401,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTE)
-    access_token = create_access_token(
-        data={"id": user.id}, expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
-
-@router.post("/login-json", response_model=Token)
 async def login_with_json(user_login: UserLogin, db: Session = Depends(get_db)):
+    """
+    Login with username and password
+    """
     user = authenticate_user(user_login.username, user_login.password, db)
     if not user:
         raise HTTPException(
@@ -74,8 +59,23 @@ async def login_with_json(user_login: UserLogin, db: Session = Depends(get_db)):
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.get("/verify-token")
-async def verify_user_token(token: str, db: Session = Depends(get_db)):
-    from core.auth import verify_token
-    verify_token(token, db)
-    return {"message": "Token is valid"}
+@router.post("/login-oauth2", response_model=Token)
+async def login_for_access_token(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db)
+):
+    """
+    OAuth2 compatible login (for Swagger UI authorization)
+    """
+    user = authenticate_user(form_data.username, form_data.password, db)
+    if not user:
+        raise HTTPException(
+            status_code=401,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTE)
+    access_token = create_access_token(
+        data={"id": user.id}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
