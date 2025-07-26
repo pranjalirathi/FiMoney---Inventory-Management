@@ -2,10 +2,13 @@ from fastapi import FastAPI
 
 from database import engine
 from models.user import User
+from models.product import Product
 
-from routers import auth, users
+from routers import auth, users, products
 
 User.metadata.create_all(bind=engine)
+Product.metadata.create_all(bind=engine)
+
 
 app = FastAPI(
     title="FiMoney API",
@@ -16,6 +19,7 @@ app = FastAPI(
 
 app.include_router(auth.router)
 app.include_router(users.router)
+app.include_router(products.router)
 
 
 @app.get("/")
