@@ -30,16 +30,17 @@
 - **Dual Login Endpoints** (JSON & OAuth2 compatible)
 
 ### 📦 Product Management
-- **Add Products** 
+- **Add Products** with unique SKU validation
 - **Get Products** with pagination support
 - **Update Product Quantity** with ownership validation
 - **Product Details** retrieval
-
+- **SKU Uniqueness** enforcement at database and application level
 
 ### 👥 User Management
 - **Get Current User Info**
 - **List All Users**
 - **Get User by ID**
+- **User Profile Management**
 
 ### 🛡️ Security Features
 - **Bcrypt Password Hashing**
@@ -92,7 +93,8 @@ fimoney/
 │   ├── database.py              # Database configuration
 │   ├── requirements.txt         # Python dependencies
 │   ├── .env                     # Environment variables (not in repo)
-│   └── test_api.py              # API test script
+│   ├── .env.example             # Environment template
+│   └── test_product_api.py      # API test script
 ├── README.md                    # Project documentation
 └── .gitignore                   # Git ignore rules
 ```
@@ -102,8 +104,8 @@ fimoney/
 ### Authentication Endpoints
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|---------------|
-| POST | `/auth/register` | Register new user | ❌ |
-| POST | `/auth/login` | Login with JSON payload | ❌ |
+| POST | `/register` | Register new user | ❌ |
+| POST | `/login` | Login with JSON payload | ❌ |
 | POST | `/auth/login-oauth2` | OAuth2 compatible login | ❌ |
 
 ### User Management Endpoints
@@ -143,7 +145,7 @@ cd backend
 ```bash
 # Windows
 python -m venv venv
-.\venv\Scripts\activate
+venv\Scripts\activate
 
 # macOS/Linux
 python3 -m venv venv
@@ -158,7 +160,7 @@ pip install -r requirements.txt
 ### 5. Set Up Environment Variables
 ```bash
 # Copy the example environment file
-cp .env
+cp .env.example .env
 
 # Generate a secret key (run in Python)
 python -c "import secrets; print(secrets.token_hex(32))"
@@ -224,15 +226,16 @@ Visit: **http://localhost:8000/redoc**
 Run the provided test script to verify all endpoints:
 
 ```bash
-python test_api.py
+python test_product_api.py
 ```
 
 ### Test Coverage
 The test script validates:
 - ✅ User registration and login
-- ✅ Product creation 
+- ✅ Product creation with unique SKUs
 - ✅ Product listing with pagination
 - ✅ Product quantity updates
+- ✅ Duplicate SKU validation
 - ✅ Authentication token handling
 
 ### Expected Test Output
@@ -251,8 +254,8 @@ Get Products: PASSED (Quantity = 15)
 4. Testing Update Quantity...
 Update Quantity: PASSED, Updated quantity: 15
 
-5. Get Products...
-Get Products: PASSED (Quantity = 15)
+5. Testing Duplicate SKU...
+Duplicate SKU: PASSED (should fail)
 
 API testing completed!
 ```
@@ -277,7 +280,7 @@ API testing completed!
 ### Key Postman Requests
 
 **Authentication:**
-- POST `/auth/register` - Register user
+- POST `/auth/signup` - Register user
 - POST `/auth/login` - Get access token
 
 **Products:**
@@ -391,7 +394,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 If you encounter any issues or have questions:
 
 1. **Check the documentation**: http://localhost:8000/docs
-2. **Run tests**: `python test_api.py`
+2. **Run tests**: `python test_product_api.py`
 3. **Check logs**: Server console output
 4. **Create an issue**: GitHub repository issues
 
