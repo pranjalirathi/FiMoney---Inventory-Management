@@ -22,7 +22,7 @@ app.include_router(users.router)
 app.include_router(products.router)
 
 
-@app.get("/")
+@app.get("/", tags=["root"], summary="Root Endpoint")
 def root():
     return {"message": "Welcome to the FiMoney API"}
 
