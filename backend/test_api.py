@@ -25,7 +25,7 @@ def test_register_user():
     Expected status codes are 201 (created) or 400 (conflict if user exists).
     """
     payload = {"username": "puja", "password": "mypassword"} 
-    res = requests.post(f"{BASE_URL}/auth/signup", json=payload)
+    res = requests.post(f"{BASE_URL}/auth/register", json=payload)
     passed = res.status_code in [201, 400]
     expected_msg = "201 (created) or 400 (user exists)"
     print_result("User Registration", passed, expected_msg, res.status_code, payload, res.text)

@@ -17,7 +17,7 @@ ACCESS_TOKEN_EXPIRE_MINUTE = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTE", "30"))
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
-@router.post("/signup")
+@router.post("/register")
 async def register_user(user: UserCreate, db: Session = Depends(get_db)):
     # Check if username already exists
     existing_user = db.query(User).filter(User.username == user.username).first()
