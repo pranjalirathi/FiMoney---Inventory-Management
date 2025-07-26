@@ -38,6 +38,7 @@ async def add_product(
         db.refresh(db_product)
         
         return ProductCreateResponse(
+            status="success",
             product_id=db_product.id,
             message=f"Product '{db_product.name}' created successfully"
         )
