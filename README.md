@@ -9,6 +9,11 @@
 [![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 
+## ⚙️ POSTMAN API Documentation Link:
+
+https://www.postman.com/grey-crescent-113665/workspace/fimoney-backend-apis/collection/36707787-41b8e109-c347-407d-b53d-812d131672be?action=share&source=copy-link&creator=36707787
+
+
 ## 📋 Table of Contents
 
 - [Features](#-features)
