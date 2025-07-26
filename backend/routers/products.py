@@ -10,7 +10,7 @@ from models.user import User
 from models.product import Product
 from schemas.product import ProductCreate, ProductCreateResponse, ProductQuantityUpdate, ProductResponse, ProductListResponse
 
-router = APIRouter(prefix="/products", tags=["products"])
+router = APIRouter(prefix="/products", tags=["Products"])
 
 @router.post("/", response_model=ProductCreateResponse)
 async def add_product(
@@ -54,7 +54,7 @@ async def add_product(
 
 
 
-@router.get("/", response_model=ProductListResponse)
+@router.get("/", response_model=ProductListResponse, summary="Get all the products with pagination")
 async def get_products(
     page: int = Query(1, ge=1, description="Page number"),
     size: int = Query(10, ge=1, le=100, description="Number of items per page"),
@@ -75,7 +75,7 @@ async def get_products(
         total_pages=total_pages
     )
 
-@router.put("/{product_id}/quantity", response_model=ProductResponse)
+@router.put("/{product_id}/quantity", response_model=ProductResponse, summary="Updating the produuct quanatity")
 async def update_product_quantity(
     product_id: int,
     quantity_update: ProductQuantityUpdate,
@@ -95,7 +95,7 @@ async def update_product_quantity(
     return product
 
 
-@router.get("/{product_id}", response_model=ProductResponse)
+@router.get("/{product_id}", response_model=ProductResponse, summary="Get a particular product details")
 async def get_product(
     product_id: int,
     db: Session = Depends(get_db),
