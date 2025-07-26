@@ -9,10 +9,8 @@ from schemas.user import UserResponse
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
-@router.get("/me", response_model=UserResponse)
-async def get_current_user_info(current_user: User = Depends(get_current_user)):
-    return current_user
 
+# Getting all users
 @router.get("/", response_model=List[UserResponse])
 async def get_all_users(
     db: Session = Depends(get_db),
@@ -21,6 +19,8 @@ async def get_all_users(
     users = db.query(User).all()
     return users
 
+
+# Getting user by ID
 @router.get("/{user_id}", response_model=UserResponse)
 async def get_user_by_id(
     user_id: int,
