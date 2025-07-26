@@ -102,7 +102,7 @@ fimoney/
 ### Authentication Endpoints
 | Method | Endpoint | Description | Auth Required |
 |--------|----------|-------------|---------------|
-| POST | `/auth/signup` | Register new user | ❌ |
+| POST | `/auth/register` | Register new user | ❌ |
 | POST | `/auth/login` | Login with JSON payload | ❌ |
 | POST | `/auth/login-oauth2` | OAuth2 compatible login | ❌ |
 
@@ -277,7 +277,7 @@ API testing completed!
 ### Key Postman Requests
 
 **Authentication:**
-- POST `/auth/signup` - Register user
+- POST `/auth/register` - Register user
 - POST `/auth/login` - Get access token
 
 **Products:**
