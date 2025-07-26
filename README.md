@@ -391,7 +391,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 If you encounter any issues or have questions:
 
 1. **Check the documentation**: http://localhost:8000/docs
-2. **Run tests**: `python test_product_api.py`
+2. **Run tests**: `python test_api.py`
 3. **Check logs**: Server console output
 4. **Create an issue**: GitHub repository issues
 
