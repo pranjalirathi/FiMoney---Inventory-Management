@@ -15,7 +15,7 @@ from schemas.user import UserCreate, UserLogin, Token
 load_dotenv()
 ACCESS_TOKEN_EXPIRE_MINUTE = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTE", "30"))
 
-router = APIRouter(prefix="/auth", tags=["Authentication"])
+router = APIRouter(tags=["Authentication"])
 
 @router.post("/register")
 async def register_user(user: UserCreate, db: Session = Depends(get_db)):

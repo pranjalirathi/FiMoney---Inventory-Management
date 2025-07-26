@@ -25,7 +25,7 @@ def test_register_user():
     Expected status codes are 201 (created) or 400 (conflict if user exists).
     """
     payload = {"username": "puja", "password": "mypassword"} 
-    res = requests.post(f"{BASE_URL}/auth/register", json=payload)
+    res = requests.post(f"{BASE_URL}/register", json=payload)
     passed = res.status_code in [201, 400]
     expected_msg = "201 (created) or 400 (user exists)"
     print_result("User Registration", passed, expected_msg, res.status_code, payload, res.text)
@@ -37,7 +37,7 @@ def test_login():
     Returns the token for authenticated requests.
     """
     payload = {"username": "puja", "password": "mypassword"}  
-    res = requests.post(f"{BASE_URL}/auth/login", json=payload)
+    res = requests.post(f"{BASE_URL}/login", json=payload)
     token = None
     passed = False
     if res.status_code == 200:
@@ -68,7 +68,7 @@ def test_add_product(token):
         "price": 999.99 
     }
     res = requests.post(f"{BASE_URL}/products/", json=payload, headers={"Authorization": f"Bearer {token}"})
-    passed = res.status_code == 200 
+    passed = res.status_code == 201  # Changed from 200 to 201
     if passed:
         print("Add Product: PASSED")
         try:
@@ -76,7 +76,7 @@ def test_add_product(token):
         except Exception:
             return None
     else:
-        print_result("Add Product", False, 200, res.status_code, payload, res.text)
+        print_result("Add Product", False, 201, res.status_code, payload, res.text)
         return None
 
 def test_update_quantity(token, product_id, new_quantity):
