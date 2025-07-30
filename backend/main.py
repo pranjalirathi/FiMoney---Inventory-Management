@@ -10,31 +10,43 @@ from routers import auth, users, products
 User.metadata.create_all(bind=engine)
 Product.metadata.create_all(bind=engine)
 
-
+# Root app (serves only root or static if needed)
 app = FastAPI(
+    title="FiMoney Root",
+    description="Handles root-level routes",
+    version="1.0.0"
+)
+
+# Sub API app mounted at /api
+api_app = FastAPI(
     title="FiMoney API",
     description="A Financial Money Management API with Authentication",
     version="1.0.0"
 )
 
-# Add CORS middleware
-app.add_middleware(
+# CORS (for both frontend dev and production)
+api_app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:3000", "http://127.0.0.1:5173"],  # React dev server URLs
+    allow_origins=["*"], 
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, PUT, DELETE, etc.)
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-app.include_router(auth.router)
-app.include_router(users.router)
-app.include_router(products.router)
+# Include routers in the API app
+api_app.include_router(auth.router)
+api_app.include_router(users.router)
+api_app.include_router(products.router)
 
-
-@app.get("/", tags=["Root"], summary="Root Endpoint")
-def root():
+# Optional root endpoint for API
+@api_app.get("/", tags=["API Root"])
+def api_root():
     return {"message": "Welcome to the FiMoney API"}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+# Mount the api app on /api
+app.mount("/api", api_app)
+
+# Optional root endpoint for the base app
+@app.get("/", tags=["Root"])
+def root():
+    return {"message": "This is the base app. API is under /api"}
